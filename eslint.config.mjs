@@ -1,18 +1,56 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
+import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
+});
+
+const eslintConfig = [
+  ...compat.extends(
+    "next/core-web-vitals",
+    "next/typescript",
+    "standard",
+    "plugin:tailwindcss/recommended",
+    "prettier"
+  ),
+  {
+    rules: {
+      "import/order": [
+        "error",
+        {
+          groups: [
+            "builtin", // Built-in types are first
+            "external", // External libraries
+            "internal", // Internal modules
+            ["parent", "sibling"], // Parent and sibling types can be mingled together
+            "index", // Then the index file
+            "object", // Object imports
+          ],
+          "newlines-between": "always",
+          pathGroups: [
+            {
+              pattern: "@app/**",
+              group: "external",
+              position: "after",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["builtin"],
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
+        },
+      ],
+      "import/no-anonymous-default-export": "off",
+    },
+  },
+];
 
 export default eslintConfig;
