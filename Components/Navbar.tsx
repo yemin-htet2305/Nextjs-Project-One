@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logo from "@/public/logo.png";
 import profile from "@/public/profile.jpg";
+import Input from "./Input";
 
 function Navbar() {
   return (
@@ -17,12 +18,8 @@ function Navbar() {
           Nextjs<span className="text-main"> Coder</span>
         </h1>
       </div>
-      <div>
-        <input
-          type="text"
-          placeholder="Search Anything Globally"
-          className="px-4 py-2 rounded-md bg-primary text-white w-[600px]"
-        />
+      <div className="w-[600px]">
+        <Input placeholder="Search Anything Globally" />
       </div>
       <div>
         <Image
