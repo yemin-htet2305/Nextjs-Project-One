@@ -24,15 +24,21 @@ export default function page() {
       <div className="w-2/4 flex flex-col items-center justify-center p-10">
         <div className=" w-[80%] space-y-8">
           <h3 className="text-xl font-semibold">
-            Sign Into NextJs <span className="text-main">Coder</span> Forum
+            Sign Up NextJs <span className="text-main">Coder</span> Forum
           </h3>
+          <div>
+            <Input placeholder="Enter your Name" label="Name" />
+          </div>
+          <div>
+            <Input placeholder="Enter your UserName" label="UserName" />
+          </div>
           <div>
             <Input placeholder="Enter your email" label="Email" />
           </div>
           <div>
             <Input placeholder="Enter your password" label="Password" />
           </div>
-          <Button>Sign In </Button>
+          <Button>Register Account</Button>
           <AuthForm />
         </div>
       </div>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import logo from "@/public/logo.png";
 import profile from "@/public/profile.jpg";
 import Input from "./Input";
+import SearchInput from "./SearchInput";
 
 function Navbar() {
   return (
@@ -14,12 +15,12 @@ function Navbar() {
           className="rounded-full"
           height={60}
         />
-        <h1 className="font-bold">
+        <h1 className="font-bold text-2xl">
           Nextjs<span className="text-main"> Coder</span>
         </h1>
       </div>
       <div className="w-[600px]">
-        <Input placeholder="Search Anything Globally" />
+        <SearchInput/>
       </div>
       <div>
         <Image
