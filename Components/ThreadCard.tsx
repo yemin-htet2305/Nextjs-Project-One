@@ -3,22 +3,15 @@ import profile from "@/public/profile.jpg";
 import { AiOutlineLike } from "react-icons/ai";
 import { LiaComments } from "react-icons/lia";
 import { FaEye } from "react-icons/fa";
+import TagCard from "./TagCard";
 
 export default function ThreadCard() {
   return (
     <div className="bg-card w-full rounded-xl p-5 space-y-5">
       <h1 className="text-2xl font-bold">What is vue js? how does it work?</h1>
       <div className="space-x-2">
-        <button
-          className={`p-2 rounded-lg w-[100px] text-gray-200  bg-tertiary`}
-        >
-          React
-        </button>
-        <button
-          className={`p-2 rounded-lg w-[100px] text-gray-200 bg-tertiary`}
-        >
-          Vue
-        </button>
+        <TagCard href="filters/react">React</TagCard>
+        <TagCard href='filters/vue'>Vue</TagCard>
       </div>
       <div className="flex items-center justify-between">
         <div className="flex space-x-3 items-center">

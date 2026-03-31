@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
+import ButtonLink from "@/Components/ButtonLink";
 import Filters from "@/Components/Filters";
 import ThreadCard from "@/Components/ThreadCard";
+import ROUTES from "@/route";
 
 async function page({searchParams}: {searchParams:Promise<{search: string | undefined, filter: string | undefined}>}) {
   let session = await auth();
@@ -10,11 +12,7 @@ async function page({searchParams}: {searchParams:Promise<{search: string | unde
     <>
     <div className="flex items-center justify-between p-2">
       <h1 className="text-3xl font-bold">All Threads</h1>
-      <button
-      className="px-2 py-2 bg-main rounded-lg text-gray-200"
-      >
-        Create New Thread
-      </button>
+      <ButtonLink href={ROUTES.QUESTION_CREATE}>Create a New Thread</ButtonLink>
     </div>
       <Filters/>
       <ThreadCard/>
