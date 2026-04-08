@@ -1,10 +1,7 @@
-import { Bold } from '@tiptap/extension-bold';
 import User from "@/database/user.model";
 import dbConnect from "@/lib/dbConnect";
-import { NextResponse } from "next/server";
 import { handleErrorResponse, handleSuccessResponse } from '@/lib/response';
 import UserSchema from '@/lib/schemas/UserSchema';
-import { ZodError } from 'zod/v4';
 import validateBody from '@/lib/validateBody';
 
 export async function GET(){
