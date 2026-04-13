@@ -2,12 +2,14 @@ import { auth } from "@/auth";
 import ButtonLink from "@/Components/ButtonLink";
 import Filters from "@/Components/Filters";
 import ThreadCard from "@/Components/ThreadCard";
+import { api } from "@/lib/api";
+import fetchHandler from "@/lib/fetchHandler";
 import ROUTES from "@/route";
 
 async function page({searchParams}: {searchParams:Promise<{search: string | undefined, filter: string | undefined}>}) {
   let session = await auth();
   const { search, filter } = await searchParams;
-
+ 
   return (
     <>
     <div className="flex items-center justify-between p-2">
