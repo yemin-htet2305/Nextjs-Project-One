@@ -1,5 +1,3 @@
-import { metadata } from './../app/layout';
-import { de } from "zod/v4/locales";
 import fetchHandler from "./fetchHandler"
 
 const API_BASE_URL = "http://localhost:3000/api";

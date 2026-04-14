@@ -9,7 +9,7 @@ import ROUTES from "@/route";
 async function page({searchParams}: {searchParams:Promise<{search: string | undefined, filter: string | undefined}>}) {
   let session = await auth();
   const { search, filter } = await searchParams;
- 
+  console.log("Session:", session);
   return (
     <>
     <div className="flex items-center justify-between p-2">

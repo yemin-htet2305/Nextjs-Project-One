@@ -49,7 +49,9 @@ export async function POST(request: Request) {
         await Account.create([{
             userId: existingUser._id,
             provider: provider,
-            providerAccountId: providerAccountId,}],{session});
+            providerAccountId: providerAccountId,
+            name : name,
+        }],{session});
     }
 
     await session.commitTransaction();
