@@ -1,8 +1,9 @@
-import Input from "../../../Components/Input";
+
 import logo from "../../../public/logo.png";
 import Image from "next/image";
 import Button from "../../../Components/Button";
-import AuthForm from "../../../Components/AuthForm";
+import RegisterForm from "@/Components/RegisterForm";
+
 export default function page() {
   return (
     <div className="flex">
@@ -21,27 +22,8 @@ export default function page() {
         </p>
         <Button>Login Account?</Button>
       </div>
-      <div className="w-2/4 flex flex-col items-center justify-center p-10">
-        <div className=" w-[80%] space-y-8">
-          <h3 className="text-xl font-semibold">
-            Sign Up NextJs <span className="text-main">Coder</span> Forum
-          </h3>
-          <div>
-            <Input placeholder="Enter your Name" label="Name" />
-          </div>
-          <div>
-            <Input placeholder="Enter your UserName" label="UserName" />
-          </div>
-          <div>
-            <Input placeholder="Enter your email" label="Email" />
-          </div>
-          <div>
-            <Input placeholder="Enter your password" label="Password" />
-          </div>
-          <Button>Register Account</Button>
-          <AuthForm />
-        </div>
-      </div>
+      <RegisterForm />
+      
     </div>
   );
 }

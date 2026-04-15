@@ -1,7 +1,7 @@
 "use server";
 import mongoose from "mongoose";
 import dbConnect from "../dbConnect";
-import { handleErrorResponse, handleSuccessResponse } from "../response";
+import { actionError} from "../response";
 import validateBody from "../validateBody";
 import SignUpSchema from "../schemas/SignUpSchema";
 import User from "@/database/user.model";
@@ -36,11 +36,11 @@ export async function signUpWithCredentials(params: {name: string; username: str
 
         await session.commitTransaction();
         await signIn("credentials",{email, password, redirect: false});
-        return handleSuccessResponse(newuser);
+        return {success: true};
     }catch(error){
         console.error("Error in sign-up with credentials:", error);
         await session.abortTransaction();
-        return handleErrorResponse(error);
+        return actionError(error);
     }finally{
         session.endSession();
     }

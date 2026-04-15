@@ -2,7 +2,7 @@ import { Document, model, models, Schema, Types } from "mongoose";
 
 export interface Iaccount {
   userId: Types.ObjectId;
-  name: string;
+  name?: string;
   image?: string;
   password?: string;
   provider: string;
@@ -20,7 +20,6 @@ const AccountSchema = new Schema(
     },
     name: {
       type: String,
-      required: true,
     },
     image: {
       type: String,

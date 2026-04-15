@@ -25,4 +25,20 @@ const handleErrorResponse = (error: unknown) => {
     }, {status: status})
 }
 
-export {handleSuccessResponse, handleErrorResponse};
+const actionError = (error: unknown) => {
+    let status = 500;
+    let message = error instanceof Error ? error.message : "Internal Server Error";
+    let detail = null
+    if(error instanceof ZodError){
+        status = 400;
+        message = "Validation Error";
+        detail = error.flatten().fieldErrors;
+    }
+    return {
+        message: message,
+        success: false,
+        detail: detail,
+    };
+
+}
+export {handleSuccessResponse, handleErrorResponse,actionError};
