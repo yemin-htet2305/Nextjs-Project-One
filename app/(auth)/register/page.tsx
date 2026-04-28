@@ -2,7 +2,8 @@
 import logo from "../../../public/logo.png";
 import Image from "next/image";
 import Button from "../../../Components/Button";
-import RegisterForm from "@/Components/RegisterForm";
+import AuthenticationForm from "@/Components/AuthenticationForm";
+import { signUpWithCredentials } from "@/lib/action/signUpWithCredentials.action";
 
 export default function page() {
   return (
@@ -22,7 +23,7 @@ export default function page() {
         </p>
         <Button>Login Account?</Button>
       </div>
-      <RegisterForm />
+      <AuthenticationForm type="register" submitAction={signUpWithCredentials} />
       
     </div>
   );

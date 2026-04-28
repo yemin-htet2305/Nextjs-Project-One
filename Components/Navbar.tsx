@@ -1,10 +1,12 @@
 import Image from "next/image";
 import logo from "@/public/logo.png";
 import profile from "@/public/profile.jpg";
-import Input from "./Input";
 import SearchInput from "./SearchInput";
+import { auth } from "@/auth";
 
-function Navbar() {
+async function Navbar() {
+  let session = await auth();
+  let user = session?.user
   return (
     <nav className="flex justify-between px-10 py-6">
       <div className="flex items-center justify-center space-x-4">
@@ -23,13 +25,13 @@ function Navbar() {
         <SearchInput/>
       </div>
       <div>
-        <Image
-          src={profile}
+        {user && <Image
+          src={user?.image || ""}
           alt="profile"
           width={45}
           className="rounded-full"
           height={40}
-        />
+        />}
       </div>
     </nav>
   );

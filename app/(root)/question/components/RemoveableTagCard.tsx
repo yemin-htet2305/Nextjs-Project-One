@@ -1,0 +1,27 @@
+import React from 'react'
+
+export default function RemoveableTagCard({children,onRemove}:{
+    children:string,
+    onRemove: React.MouseEventHandler<HTMLButtonElement>
+}) {
+  return (
+    <div className='w-auto rounded-xl bg-tertiary px-4 py-2 text-gray-300 flex justify-around'>
+      {children}
+      <button onClick={onRemove} className='ml-2 text-gray-500 hover:text-red-500'>
+        <svg fill="#880808" height="15px" width="15px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.965 27.965" >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <g>
+              <g id="c142_x">
+                <path d="M13.98,0C6.259,0,0,6.261,0,13.983c0,7.721,6.259,13.982,13.98,13.982c7.725,0,13.985-6.262,13.985-13.982 C27.965,6.261,21.705,0,13.98,0z M19.992,17.769l-2.227,2.224c0,0-3.523-3.78-3.786-3.78c-0.259,0-3.783,3.78-3.783,3.78 l-2.228-2.224c0,0,3.784-3.472,3.784-3.781c0-0.314-3.784-3.787-3.784-3.787l2.228-2.229c0,0,3.553,3.782,3.783,3.782 c0.23２,０,３．７８６－３．７８２，３．７８６－３．７８２ｌ２．２２７，２．２２９ｃ０，０－３．７８５，３．５２３－３．７８５，３．７８７Ｃ１６．２０７，１４．２３９，１９．９９２，１７．７６９，１９．９９２，１７．７６９ｚ"></path>
+              </g>
+              <g id="Capa_1_104_">
+              </g>
+            </g>
+          </g>
+        </svg>
+      </button>
+    </div>
+  )
+}

@@ -3,8 +3,6 @@ import Input from "./Input";
 import Button from "./Button";
 import AuthForm from "./AuthForm";
 import { useState } from "react";
-
-import { signUpWithCredentials } from "@/lib/action/signUpWithCredentials.action";
 import { useRouter } from "next/navigation";
 import ROUTES from "@/route";
 
@@ -23,7 +21,9 @@ interface FormErrors {
   password?: string[];
 }
 
-export default function RegisterForm() {
+export default function AuthenticationForm(
+  {type,submitAction}:{type: "register" | "login",submitAction:Function}
+) {
 const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -36,7 +36,7 @@ const router = useRouter();
   const register = async (e: React.FormEvent<HTMLFormElement>) => {
     setErrors(null);
     e.preventDefault();
-    const result = await signUpWithCredentials(formData);
+    const result = await submitAction(formData);
     console.log(result);
     if (result.success) {
         router.push(ROUTES.HOME);
@@ -50,6 +50,12 @@ const router = useRouter();
       if(result.message === "Username already exists!" && 'message' in result){
         setErrors({username: [result.message]});
       }
+      if(result.message === "Password is not matched!" && 'message' in result){
+        setErrors({password: [result.message]});
+      }
+      if(result.message === "User not found!" && 'message' in result){
+        setErrors({email: [result.message]});
+      }
     }
   };
 
@@ -60,9 +66,11 @@ const router = useRouter();
     >
       <div className=" w-[80%] space-y-8">
         <h3 className="text-xl font-semibold">
-          Sign Up NextJs <span className="text-main">Coder</span> Forum
+          Sign {type === "login"? "In" : "Up"} NextJs <span className="text-main">Coder</span> Forum
         </h3>
-        <div>
+        {type == "register" && (
+          <>
+           <div>
           <Input
             placeholder="Enter your Name"
             label="Name"
@@ -80,6 +88,8 @@ const router = useRouter();
           />
           <p className="text-red-500">{errors?.username?.[0]}</p>
         </div>
+          </>
+        )}
         <div>
           <Input
             placeholder="Enter your email"
@@ -100,7 +110,7 @@ const router = useRouter();
           />
           <p className="text-red-500">{errors?.password?.[0]}</p>
         </div>
-        <Button>Register Account</Button>
+        <Button>{type === "register"? "Register Account" : "Sign In"}</Button>
         <AuthForm />
       </div>
     </form>

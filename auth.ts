@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const isPasswordValid = await bcrypt.compare(password, existingAccount.password);
         if(isPasswordValid){
           return {
-            id: existingUser.id,
+            id: existingUser._id.toString(),
             name: existingUser.name,
             username: existingUser.username,
             email: existingUser.email,
@@ -51,14 +51,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       });
       return success;
     },
-    async jwt({token,account}){
-            if(account){
-             const {success,accountData} = await api.accounts.getByProviderAccountId(account?.providerAccountId);
-             if(!success || !accountData) return token;
-             const userId = account?.userId;
-             if (userId) token.sub = userId;
-      }
-      return token;
+    async jwt({token,account,user}){
+            // On credentials sign-in, `user` is the object returned from `authorize`
+          // It already has the MongoDB id, so set it on the token
+          if (user) {
+            token.sub = user.id;
+          }
+          
+          // On OAuth sign-in, look up the account to get the linked userId
+          if (account && account.type !== "credentials") {
+            const { success, data: accountData } = await api.accounts.getByProviderAccountId(
+              account.providerAccountId
+            );
+            if (success && accountData?.userId) {
+              token.sub = accountData.userId.toString();
+            }
+          }
+  
+  return token;
     },
     async session({session,token}){
       session.user.id = token.sub as string;
