@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from "react-toastify";
 import RemoveableTagCard from './RemoveableTagCard'
+import { QuestionEdit } from '@/lib/action/QuestionEdit.action'
 
 
 export default function QuestionForm({ isEdit = false, questionData }: { isEdit?: boolean; questionData?: Iquestion }) {
@@ -21,16 +22,18 @@ export default function QuestionForm({ isEdit = false, questionData }: { isEdit?
     const router = useRouter();
 
     let HandleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if(e.key === 'Enter') {
-        if(!tags.includes(newTag.trim())) {
+      if (e.key === 'Enter') {
+        e.preventDefault(); // ← stop the form from submitting
+        if (newTag.trim() === '') return; // also guard against empty tags
+        if (!tags.includes(newTag.trim())) {
           setTags([...tags, newTag.trim()]);
           setNewTag('');
-        }else{
+          setError(''); // clear any previous error
+        } else {
           setError('You already have a tag with this name.');
         }
       }
-
-    }
+   }
     const removeTag = (tagToRemove: string) => {
       setTags((prevTags) => prevTags.filter(tag => tag !== tagToRemove));
     }
@@ -39,20 +42,18 @@ export default function QuestionForm({ isEdit = false, questionData }: { isEdit?
       e.preventDefault();
       try{
         if(isEdit && questionData) {
-          let result = await QuestionCreate({title,content,tags});
-          console.log('QuestionCreate result:', result); // debug
+          let result = await QuestionEdit({questionId: questionData._id, title, content, tags});
+          console.log("update result:", result)
           if(result.success && result.data) {
             toast.success('Question updated successfully!');
-            console.log('Redirecting to:', ROUTES.DETAIL(result.data._id)); // debug
             router.push(ROUTES.DETAIL(result.data._id));
         }
         return;
         }
         let result = await QuestionCreate({title,content,tags});
-        console.log('QuestionCreate result:', result); // debug
+        console.log('create result:', result);
         if(result.success && result.data) {
           toast.success('Question created successfully!');
-          console.log('Redirecting to:', ROUTES.DETAIL(result.data._id)); // debug
           router.push(ROUTES.DETAIL(result.data._id));
         }
       }
