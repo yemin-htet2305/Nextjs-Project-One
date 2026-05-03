@@ -1,15 +1,25 @@
 import { auth } from "@/auth";
 import ButtonLink from "@/Components/ButtonLink";
+import DataRenderer from "@/Components/DataRenderer";
 import Filters from "@/Components/Filters";
 import ThreadCard from "@/Components/ThreadCard";
-import { api } from "@/lib/api";
-import fetchHandler from "@/lib/fetchHandler";
+import { GetQuestions } from "@/lib/action/GetQuestions.action";
 import ROUTES from "@/route";
 
-async function page({searchParams}: {searchParams:Promise<{search: string | undefined, filter: string | undefined}>}) {
+async function page({searchParams}: {searchParams:Promise<{
+  [key: string]: string;
+}>}) {
   let session = await auth();
-  const { search, filter } = await searchParams;
-  console.log("Session:", session);
+  const { page, pageSize, search, filter } = await searchParams;
+  const {success,data,message,} = await GetQuestions(
+    {
+      page: Number(page) || 1,
+      pageSize: Number(pageSize) || 10,
+      filter: filter || "",
+      search: search || "",
+    }
+  );
+  const questions = data? data.questions : [];
   return (
     <>
     <div className="flex items-center justify-between p-2">
@@ -17,7 +27,13 @@ async function page({searchParams}: {searchParams:Promise<{search: string | unde
       <ButtonLink href={ROUTES.QUESTION_CREATE}>Create a New Thread</ButtonLink>
     </div>
       <Filters/>
-      <ThreadCard/>
+      <DataRenderer success={success} data={questions} errorMessage={message} render={(data) => (
+                                                                          <>
+                                                                            {data.map((q, i) => (
+                                                                              <ThreadCard key={i} question={q} />
+                                                                            ))}
+                                                                          </>
+                                                                        )}/>
     </>
   );
 }
