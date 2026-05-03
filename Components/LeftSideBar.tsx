@@ -22,7 +22,7 @@ async function LeftSideBar() {
         </li>
         <li className="bg-primary px-2 py-2 rounded-lg">
           <Link
-            href={ROUTES.HOME}
+            href={ROUTES.TAGS}
             className="text-md font-bold flex items-center space-x-5"
           >
             <IoHome />

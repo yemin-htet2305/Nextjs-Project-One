@@ -16,9 +16,9 @@ export default function DataRenderer({success,data,errorMessage,render}:{
         return <EmptyState />;
     }
   return (
-    <div className="flex flex-col space-y-5">
+    <>
         {render(data)}
-    </div>
+    </>
   )
 }
 
