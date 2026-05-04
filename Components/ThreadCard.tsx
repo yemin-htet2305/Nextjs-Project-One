@@ -4,9 +4,9 @@ import { AiOutlineLike } from "react-icons/ai";
 import { LiaComments } from "react-icons/lia";
 import { FaEye } from "react-icons/fa";
 import TagCard from "./TagCard";
-import { Iquestion } from "@/database/question.model";
+import { IquestionDoc } from "@/database/question.model";
 
-export default function ThreadCard({question} : {question : Iquestion}) {
+export default function ThreadCard({question} : {question : IquestionDoc}) {
   return (
     <div className="bg-card w-full rounded-xl p-5 space-y-5">
       <h1 className="text-2xl font-bold">{question.title}</h1>

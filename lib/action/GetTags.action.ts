@@ -1,6 +1,6 @@
 'use server';
 
-import Tag,{Itag} from "@/database/tag.model";
+import Tag,{ItagDoc} from "@/database/tag.model";
 import dbConnect from "../dbConnect";
 import validateBody from "../validateBody";
 import PaginatedSearchParamsSchema from "../schemas/PaginatdSearchParamsSchema";
@@ -16,7 +16,7 @@ export async function GetTags(params:{
     sort?: string
 }): Promise<{
     data?:{
-        tags: Itag[],
+        tags: ItagDoc[],
         isNext: boolean,
     },success: boolean,
     message?: string,
@@ -29,7 +29,7 @@ export async function GetTags(params:{
     const skip = (Number(page) - 1) * Number(pageSize)
     const limit = Number(pageSize)
 
-    const filterQuery: FilterQuery<Itag> = {}
+    const filterQuery: FilterQuery<ItagDoc> = {}
 
     if(filter === "recommended"){
         return {data:{tags: [],isNext: false},success:true,}
@@ -61,7 +61,7 @@ export async function GetTags(params:{
                                         .sort(sortCrietria)
                                         .skip(skip)
                                         .limit(limit)
-                                        .lean<Itag[]>();
+                                        .lean<ItagDoc[]>();
 
         const next = totalTags > skip + tags.length
 

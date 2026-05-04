@@ -1,6 +1,6 @@
 'use server';
 
-import Question, { Iquestion } from "@/database/question.model";
+import Question, { IquestionDoc } from "@/database/question.model";
 import dbConnect from "../dbConnect";
 import validateBody from "../validateBody";
 import PaginatedSearchParamsSchema from "../schemas/PaginatdSearchParamsSchema";
@@ -16,7 +16,7 @@ export async function GetQuestions(params:{
     sort?: string
 }): Promise<{
     data?:{
-        questions: Iquestion[],
+        questions: IquestionDoc[],
         isNext: boolean,
     },success: boolean,
     message?: string,
@@ -29,7 +29,7 @@ export async function GetQuestions(params:{
     const skip = (Number(page) - 1) * Number(pageSize)
     const limit = Number(pageSize)
 
-    const filterQuery: FilterQuery<Iquestion> = {}
+    const filterQuery: FilterQuery<IquestionDoc> = {}
 
     if(filter === "recommended"){
         return {data:{questions: [],isNext: false},success:true,}
@@ -66,7 +66,7 @@ export async function GetQuestions(params:{
                                         .sort(sortCrietria)
                                         .skip(skip)
                                         .limit(limit)
-                                        .lean<Iquestion[]>();
+                                        .lean<IquestionDoc[]>();
 
         const next = totalQuestions > skip + questions.length
 
