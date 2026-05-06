@@ -8,7 +8,7 @@ export interface Ianswer {
     downvotes: number;
 }
 
-interface IanswerDoc extends Ianswer, Document {}
+export interface IanswerDoc extends Ianswer, Document {}
 
 const AnswerSchema = new Schema({
     author: {

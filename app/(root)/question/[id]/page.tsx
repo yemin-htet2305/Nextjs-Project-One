@@ -1,12 +1,27 @@
 import Preview from '@/Components/Preview';
 import TagCard from '@/Components/TagCard';
 import { GetQuestion } from '@/lib/action/GetQuestion.action';
+import { IncrementView } from '@/lib/action/IncrementView.action';
 import { notFound } from 'next/navigation';
-import React from 'react'
+import { after } from 'next/server';
+import AnswerForm from '../components/AnswerForm';
+import AnswerList from '../components/AnswerList';
+import { GetAnswers } from '@/lib/action/GetAnswers.acton';
+import { success } from 'zod/v4';
 
 export default async function page({ params }: { params: Promise<{ id: string }> }) {
     const {id} = await params;
-    const {success,data: question} = await GetQuestion({questionId: id});
+    
+    const {success: qsuccess,data: question} = await GetQuestion({questionId: id});
+    
+    after(async ()=> {
+      await IncrementView({questionId: id});
+    });
+
+    const{success : asuccess,
+      data: answerData,
+      message: aerrorMessage,
+      detail} = await GetAnswers({page:1,pageSize:10,filter:'latest',questionId:id})
 
   //   const question = {
   //   id: "q123",
@@ -88,9 +103,9 @@ export default async function page({ params }: { params: Promise<{ id: string }>
   //     image: "/avatars/jane-doe.png",
   //   },
   // };
+    const {answers = [],totalAnswers = 0}  = answerData || {};
 
     if(!question) notFound();
-    console.log(question)
   return (
     <div className="p-3">
       <div className="flex justify-between items-center">
@@ -107,8 +122,19 @@ export default async function page({ params }: { params: Promise<{ id: string }>
       </div>
       <div className="mt-8 flex flex-wrap gap-2">
         {question.tags.map((tag) => (
-          <TagCard href={`/tags/${tag._id}`}> {tag.name}</TagCard>
+          <TagCard key={tag._id.toString()} href={`/tags/${tag._id}`}> {tag.name}</TagCard>
         ))}
+      </div>
+      <div className='my-3'>
+        <AnswerList 
+        answers={answers} 
+        totalAnswers={totalAnswers} 
+        success={asuccess}
+        answerError={aerrorMessage}
+        />
+      </div>
+      <div className='my-3'>
+        <AnswerForm questionId={id}/>
       </div>
     </div>
   );

@@ -5,11 +5,12 @@ import { LiaComments } from "react-icons/lia";
 import { FaEye } from "react-icons/fa";
 import TagCard from "./TagCard";
 import { IquestionDoc } from "@/database/question.model";
+import Link from "next/link";
 
 export default function ThreadCard({question} : {question : IquestionDoc}) {
   return (
     <div className="bg-card w-full rounded-xl p-5 space-y-5">
-      <h1 className="text-2xl font-bold">{question.title}</h1>
+      <Link href={`/question/${question._id}`} className="text-2xl font-bold hover:text-main block">{question.title}</Link>
       <div className="space-x-2">
         {question.tags?.map((tag,i) => (
           <TagCard key={i} href = {`filters/${tag.name.toLowerCase()}`}>{tag.name}</TagCard>
@@ -33,11 +34,11 @@ export default function ThreadCard({question} : {question : IquestionDoc}) {
             </div>
             <div className="flex items-center space-x-2">
                 <LiaComments />
-                <span>{question.answers}k Answers</span>
+                <span>{question.answers} Answers</span>
             </div>
             <div className="flex items-center space-x-2">
                 <FaEye />
-                <span>{question.views}k Views</span>
+                <span>{question.views} Views</span>
             </div>
         </div>
       </div>

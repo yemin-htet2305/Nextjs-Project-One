@@ -172,12 +172,14 @@ const Editor = ({ value,onChange,label }:{ value?: string; onChange: (value: str
         <button
           onClick={() => editor?.chain().focus().toggleBold().run()}
           className={editor?.isActive("bold") ? "text-main" : ""}
+          type='button'
         >
           <FaBold />
         </button>
         <button
           onClick={() => editor?.chain().focus().toggleItalic().run()}
           className={editor?.isActive("italic") ? "text-main" : ""}
+           type='button'
         >
           <FaItalic />
         </button>
@@ -188,6 +190,7 @@ const Editor = ({ value,onChange,label }:{ value?: string; onChange: (value: str
           className={
             editor?.isActive("heading", { level: 1 }) ? "text-main" : ""
           }
+           type='button'
         >
           H1
         </button>
@@ -198,6 +201,7 @@ const Editor = ({ value,onChange,label }:{ value?: string; onChange: (value: str
           className={
             editor?.isActive("heading", { level: 2 }) ? "text-main" : ""
           }
+           type='button'
         >
           H2
         </button>
@@ -208,30 +212,35 @@ const Editor = ({ value,onChange,label }:{ value?: string; onChange: (value: str
           className={
             editor?.isActive("heading", { level: 3 }) ? "text-main" : ""
           }
+           type='button'
         >
           H3
         </button>
         <button
           onClick={setLink}
           className={editorState?.isLink ? "text-main" : ""}
+           type='button'
         >
           <FaLink />
         </button>
         <button
             onClick={() => editor?.chain().focus().toggleBulletList().run()}
             className={editor?.isActive('bulletList') ? 'is-active' : ''}
+             type='button'
           >
             <FaList />
         </button>
         <button
             onClick={() => editor?.chain().focus().toggleOrderedList().run()}
             className={editor?.isActive('orderedList') ? 'is-active' : ''}
+             type='button'
           >
             <FaListOl />
           </button>
           <button
             onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
             className={editor?.isActive('codeBlock') ? 'is-active' : ''}
+             type='button'
           >
             <FaCode />
           </button>
