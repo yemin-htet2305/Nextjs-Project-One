@@ -1,4 +1,5 @@
 "use client";
+import {Markdown} from "tiptap-markdown"
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Bold from "@tiptap/extension-bold";
 import Heading from "@tiptap/extension-heading";
@@ -7,7 +8,7 @@ import Link from "@tiptap/extension-link";
 import { BulletList, ListItem, OrderedList } from "@tiptap/extension-list";
 import { useEditor, EditorContent, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { FaItalic, FaBold, FaLink, FaList, FaListOl, FaCode } from "react-icons/fa";
 import { all, createLowlight } from 'lowlight'
 import css from 'highlight.js/lib/languages/css'
@@ -15,6 +16,7 @@ import js from 'highlight.js/lib/languages/javascript'
 import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
 import 'highlight.js/styles/atom-one-dark.css'
+import { string } from "zod/v4";
 
 // create a lowlight instance with all languages loaded
 const lowlight = createLowlight(all)
@@ -43,6 +45,9 @@ const Editor = ({ value,onChange,label }:{ value?: string; onChange: (value: str
       ListItem,
       CodeBlockLowlight.configure({
         lowlight,
+      }),
+      Markdown.configure({
+        html: false,
       }),
       Heading.configure({
         levels: [1, 2, 3],
@@ -119,14 +124,28 @@ const Editor = ({ value,onChange,label }:{ value?: string; onChange: (value: str
         },
       }),
     ],
-    content: value || "",
     onUpdate: ({ editor }) => {
-        onChange(editor.getHTML());
+        const md = (editor?.storage?.markdown as any)?.getMarkdown()
+        if(md !== value){
+          onChange(md);
+        }
     },
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
   });
 
+  useEffect(()=>{
+    if(!editor) return;
+    if(typeof value !== "string") return;
+    try{
+       const md = (editor?.storage?.markdown as any)?.getMarkdown();
+       if(md !== value){
+        editor.commands.setContent(value);
+       }
+    }catch(e){
+      editor.commands.clearContent();
+    }
+  },[value,editor])
   const setLink = useCallback(() => {
     const previousUrl = editor?.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);

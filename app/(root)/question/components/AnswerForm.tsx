@@ -28,7 +28,9 @@ function AnswerForm(params: {questionId: string}) {
     }
   return (
     <form className='space-y-2' onSubmit={submit}>
-        <Editor value={content} onChange={(content)=> setContent(content)} label="Answer Here"/>
+        <Editor value={content} onChange={(content)=> {setContent(content);
+            console.log(content)
+        }} label="Answer Here"/>
         <div className='flex flex-col items-end justify-end'>
             <div className="max-w-48"><Button type="submit">Submit</Button></div>
         </div>

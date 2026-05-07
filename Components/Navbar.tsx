@@ -26,7 +26,7 @@ async function Navbar() {
       </div>
       <div>
         {user && <Image
-          src={user?.image || ""}
+          src={user?.image || profile}
           alt="profile"
           width={45}
           className="rounded-full"
