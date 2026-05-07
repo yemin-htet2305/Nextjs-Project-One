@@ -134,7 +134,7 @@ export default async function page({ params }: { params: Promise<{ id: string }>
         />
       </div>
       <div className='my-3'>
-        <AnswerForm questionId={id}/>
+        <AnswerForm questionId={id} questionTitle={question.title} questionContent={question.content}/>
       </div>
     </div>
   );

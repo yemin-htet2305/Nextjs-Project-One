@@ -12,7 +12,7 @@ export default function Preview({content}: {
     content: string
 }) {
   return (
-    <div className='prose max-w-none prose-headings:text-gray-200'>
+    <div className='prose max-w-none prose-headings:text-gray-200 prose-p:text-gray-600 prose-strong:text-gray-300'>
         <MDXRemote source={content} components={{
             pre: (props) => {
                 return <Code {...props} lineNumbers className='shadow-light-200' />
