@@ -1,4 +1,5 @@
 import Preview from '@/Components/Preview';
+import VoteButtons from '@/Components/VoteButtons';
 import { IanswerDoc } from '@/database/answer.model'
 import { ChevronUp, ChevronDown, Clock } from 'lucide-react'
 import React from 'react'
@@ -70,14 +71,10 @@ function AnswerCard({ answer }: { answer: IanswerDoc }) {
 
       {/* Footer stats */}
       <footer className="mt-5 flex items-center gap-4 border-t border-zinc-100 pt-4 text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
-        <span className="flex items-center gap-1">
-          <ChevronUp className="h-3.5 w-3.5 text-emerald-500" />
-          {upvotes} upvotes
-        </span>
-        <span className="flex items-center gap-1">
-          <ChevronDown className="h-3.5 w-3.5 text-rose-500" />
-          {downvotes} downvotes
-        </span>
+        <VoteButtons type='answer'
+        typeId={answer._id.toString()}
+        initialUpvote={answer.upvotes}
+        initialDownvote={answer.downvotes}/>
       </footer>
     </article>
   )

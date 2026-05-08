@@ -7,7 +7,7 @@ export interface Ivote {
     voteType: "upvote" | "downvote";
 }
 
-interface IvoteDoc extends Ivote, Document {}
+export interface IvoteDoc extends Ivote, Document {}
 
 const VoteSchema = new Schema({
     author: {

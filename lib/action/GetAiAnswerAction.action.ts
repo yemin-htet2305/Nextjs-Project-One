@@ -1,5 +1,4 @@
 'use server'
-
 import dbConnect from "../dbConnect"
 import { actionError } from "../response"
 import GetAiAnswerActionSchema from "../schemas/GetAiAnswerActionSchema"
