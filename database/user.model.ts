@@ -11,7 +11,7 @@ export interface Iuser {
     reputation: number;
 }
 
-interface IuserDoc extends Iuser,Document{}
+export interface IuserDoc extends Iuser,Document{}
 
 const UserSchema = new Schema({
     name : {

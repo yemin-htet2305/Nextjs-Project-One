@@ -1,4 +1,3 @@
-
 import logo from "../../../public/logo.png";
 import Image from "next/image";
 import Button from "../../../Components/Button";

@@ -28,7 +28,7 @@ async function page({searchParams}: {searchParams:Promise<{
     </div>
       <Filters/>
       <DataRenderer success={success} data={questions} errorMessage={message} render={(data) => (
-                                                                          <div className="flex flex-col space-y-3">
+                                                                          <div className="flex flex-col space-y-7">
                                                                             {data.map((q, i) => (
                                                                               <ThreadCard key={i} question={q} />
                                                                             ))}

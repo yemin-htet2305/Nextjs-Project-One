@@ -24,14 +24,15 @@ async function Navbar() {
       <div className="w-[600px]">
         <SearchInput/>
       </div>
-      <div>
+      <div className="flex flex-row p-3 items-center justify-center space-x-2">
         {user && <Image
           src={user?.image || profile}
           alt="profile"
-          width={45}
+          width={35}
           className="rounded-full"
-          height={40}
+          height={30}
         />}
+        <span>{user?.name}</span>
       </div>
     </nav>
   );

@@ -49,17 +49,21 @@ async function LeftSideBar() {
         </li>
         <li className="bg-primary px-2 py-2 rounded-lg">
           <Link
-            href={ROUTES.HOME}
+            href={ROUTES.COMMUNITY}
             className="text-md font-bold flex items-center space-x-5"
           >
             <IoHome />
-            <span>Newest</span>
+            <span>Community</span>
           </Link>
         </li>
         {user && <li className="bg-red-500 px-2 py-2 rounded-lg">
           <form action={handleSignOut}>
             <button type="submit"
-              className="text-md font-bold flex items-center space-x-5"
+              className="text-md 
+              font-bold flex 
+              items-center 
+              space-x-5
+              hover:cursor-pointer"
             >
               <IoHome />
               <span>Logout</span>

@@ -19,7 +19,6 @@ function VoteButtons({type,typeId,initialUpvote,initialDownvote}:{
     const fetchUserVote = async () => {
       const {success,data,message,detail} = await GetUserVote({type: type,typeId: typeId});
       if(success && data){
-        console.log(data.userVoteType);
         setVote(data.userVoteType);
       }
       if(message){
@@ -50,7 +49,7 @@ function VoteButtons({type,typeId,initialUpvote,initialDownvote}:{
       <button onClick={()=> handleVote("downvote")} className={`flex space-x-1 border-[1px] p-3 rounded-xl
                         ${vote === "downvote"? "text-rose-500 border-rose-500":""}`}>
         <ChevronDown className="h-3.5 w-3.5 text-rose-500" />
-          <span>{downvote} upvotes</span>
+          <span>{downvote} downvotes</span>
       </button>
 
     </div>

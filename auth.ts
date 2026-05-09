@@ -67,7 +67,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               token.sub = accountData.userId.toString();
             }
           }
-  
   return token;
     },
     async session({session,token}){
