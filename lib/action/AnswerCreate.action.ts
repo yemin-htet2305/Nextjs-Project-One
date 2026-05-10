@@ -12,7 +12,7 @@ export async function AnswerCreate(params:{
     questionId: string;
     content: string
 }):Promise<{
-    success: boolean,
+    success: Boolean,
     data?: {
         answer: IanswerDoc
     },

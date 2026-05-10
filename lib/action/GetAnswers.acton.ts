@@ -13,11 +13,11 @@ export async function GetAnswers(params: {
     filter: string,
     questionId: string
 }): Promise<{
-    success: boolean;
+    success: Boolean;
     data? : {
         answers: IanswerDoc[],
         totalAnswers: number,
-        isNext: boolean
+        isNext: Boolean
     };
     message?: string;
     detail?: object | null;

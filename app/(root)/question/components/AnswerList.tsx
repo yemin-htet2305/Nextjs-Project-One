@@ -6,7 +6,7 @@ import AnswerCard from './AnswerCard';
 function AnswerList(params: {
     answers: IanswerDoc[];
     totalAnswers: number;
-    success: boolean;
+    success: Boolean;
     answerError?: string;
 }) {
   return (

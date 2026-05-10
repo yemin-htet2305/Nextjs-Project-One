@@ -57,7 +57,7 @@ export async function GetAiAnswerAction({ title, content, answer }: {
   content: string
   answer: string
 }): Promise<{
-  success: boolean
+  success: Boolean
   data?: { answer: string }
   message?: string
   detail?: object | null

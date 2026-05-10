@@ -15,7 +15,7 @@ export async function QuestionCreate(params:{
     tags : string[]
 }): Promise<
 {
-    success: boolean,
+    success: Boolean,
     data?: {
         _id: string,
         title: string,

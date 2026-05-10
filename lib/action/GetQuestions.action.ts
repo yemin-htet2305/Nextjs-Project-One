@@ -17,8 +17,8 @@ export async function GetQuestions(params:{
 }): Promise<{
     data?:{
         questions: IquestionDoc[],
-        isNext: boolean,
-    },success: boolean,
+        isNext: Boolean,
+    },success: Boolean,
     message?: string,
     details?: object | null
 }> {

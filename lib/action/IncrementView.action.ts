@@ -6,7 +6,7 @@ import validateBody from "../validateBody";
 
 
 export async function IncrementView(params:{ questionId: string}):Promise<{
-    success: boolean,
+    success: Boolean,
     data?: {view : number},
     message?: string,
     detail?: object | null,

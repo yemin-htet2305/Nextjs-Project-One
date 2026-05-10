@@ -5,7 +5,7 @@ export interface Icollection {
     question: Types.ObjectId;
 }
 
-interface IcollectionDoc extends Icollection, Document {}
+export interface IcollectionDoc extends Icollection, Document {}
 
 const CollectionSchema = new Schema({
     author: {

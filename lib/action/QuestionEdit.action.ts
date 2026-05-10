@@ -16,7 +16,7 @@ export async function QuestionEdit(params:{
     tags : string[]
 }): Promise<
 {
-    success: boolean,
+    success: Boolean,
     data?: {
         _id: string,
         title: string,

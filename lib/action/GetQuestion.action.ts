@@ -1,30 +1,35 @@
 "use server"
-
 import dbConnect from "../dbConnect"
 import validateBody from "../validateBody";
 import { actionError     } from "../response";
 import Question, {IquestionDoc} from "@/database/question.model";
 import GetQuestionSchema from "../schemas/GetQuestionSchema";
+import { auth } from "@/auth";
+import Collection from "@/database/collection.model";
 
 export async function GetQuestion(params:{
     questionId: string
 }): Promise<
 {
-    success: boolean,
-    data?: IquestionDoc
+    success: Boolean,
+    data?: {question: IquestionDoc,saved: Boolean}
 }> {
     await dbConnect();
-    console.log("GetQuestion action called with params:", params);
+    const auth_session = await auth();
+    const userId = auth_session?.user?.id;
     try{
+        if(!userId) throw new Error("Unauthorized!");
         const {questionId} = validateBody(params,GetQuestionSchema);
 
-        let question = await Question.findById(questionId).populate("tags");
+        const question = await Question.findById(questionId).populate("tags");
         if(!question){
             throw new Error("Question not found");
         }
-
-        return { success: true, data: JSON.parse(JSON.stringify(question)) };
-
+        const collection = await Collection.findOne({
+            author: userId,
+            question: questionId
+        })
+        return { success: true, data: {question:JSON.parse(JSON.stringify(question)),saved:!!collection} };
     }catch(err){
         console.log('GetQuestion error:', err);
         return actionError(err);

@@ -13,7 +13,7 @@ import RemoveableTagCard from './RemoveableTagCard'
 import { QuestionEdit } from '@/lib/action/QuestionEdit.action'
 
 
-export default function QuestionForm({ isEdit = false, questionData }: { isEdit?: boolean; questionData?: Iquestion }) {
+export default function QuestionForm({ isEdit = false, questionData }: { isEdit?: Boolean; questionData?: Iquestion }) {
     const [content, setContent] = useState(questionData?.content || '');
     const [title, setTitle] = useState(questionData?.title || '');
     const [tags,setTags] = useState<string[]>(questionData?.tags?.map(tag => tag.name) || []);
