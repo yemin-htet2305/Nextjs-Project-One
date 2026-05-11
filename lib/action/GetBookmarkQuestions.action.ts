@@ -1,13 +1,12 @@
 "use server"
-
 import Collection, { IcollectionDoc } from "@/database/collection.model";
 import dbConnect from "../dbConnect";
 import PaginatedSearchParamsSchema from "../schemas/PaginatdSearchParamsSchema";
 import validateBody from "../validateBody";
-import { FilterQuery } from "mongoose";
+import mongoose ,{ PipelineStage } from "mongoose";
 import { auth } from "@/auth";
-import Question from "@/database/question.model";
 import { actionError } from "../response";
+
 
 export async function GetBookmarkQuestions(params:{
     page? : number,
@@ -27,76 +26,95 @@ export async function GetBookmarkQuestions(params:{
     await dbConnect();
     const auth_session = await auth();
     const userId = auth_session?.user?.id;
+    if(!userId){
+        return{
+            success: true,
+            data:{
+                collections:[],isNext: false
+            }
+        }
+    }
     
     try{
-        if(!userId) throw new Error("Unauthorized!");
         const {page,pageSize,search,filter,sort} = validateBody(params,PaginatedSearchParamsSchema);
-        
         const skip = (Number(page) - 1) * Number(pageSize);
         const limit = Number(pageSize);
 
-        const filterQuery: FilterQuery<IcollectionDoc> = {author: userId};
+        const sortOptions: Record<string,Record<string,1|-1>> = {
+            mostrecent: { "question.createdAt": -1 },
+            oldest: { "question.createdAt": 1 },
+            mostvoted: { "question.upvotes": -1 },
+            mostviewed: { "question.views": -1 },
+            mostanswered: { "question.answers": -1 },
+        }
+        const sortCriteria = filter? sortOptions[filter] : sortOptions.mostrecent;
 
-            if(search){
-                const matchQuestions = await Question.find({
-                    $or: [
-                        {title:{$regex: search,option: "i"}},
-                        {content:{$regex: search,option: "i"}}
-                    ]
-                }).select("_id");
-                const matchIds = matchQuestions.map((m)=> m._id);
-                if(!matchIds.length){
-                    return{
-                        success:true,
-                        data: {collections: [],isNext:false}
-                    }
+        const pipeline: PipelineStage[] = [
+            {$match: {author : new mongoose.Types.ObjectId(userId)}},
+            {
+                $lookup:{
+                    from:"questions",
+                    localField:"question",
+                    foreignField:"_id",
+                    as:"question"
                 }
-                filterQuery.question = {$in: matchIds};
+            },
+            {$unwind: {
+            path: "$question",
+            preserveNullAndEmptyArrays: true
+        }},
+            {
+                $lookup:{
+                    from:"users",
+                    localField:"question.author",
+                    foreignField:"_id",
+                    as:"question.author"
+                }
+            },
+            {$unwind: {
+            path: "$question.author",
+            preserveNullAndEmptyArrays: true
+        }},
+            {
+                $lookup:{
+                    from:"tags",
+                    localField:"question.tags",
+                    foreignField:"_id",
+                    as:"question.tags"
+                }
             }
+        ];
+        if(search){
+            pipeline.push({
+                $match: {
+                    $or: [
+                        {"question.title": {$regex: search, $options: "i"}},
+                        {"question.content": {$regex: search, $options: "i"}}
+                    ]
+                }
+            })
+        }
+        const[totalCountResults] = await Collection.aggregate([
+            ...pipeline,
+            {$count: "count"}
+        ]);
+        const totalCollections = totalCountResults?.count || 0;
 
-            let sortCriteria = {}
-
-            switch (filter){
-                case "mostrecent":
-                    sortCriteria = {createdAt: -1};
-                    break;
-                case "oldest":
-                    sortCriteria = {createdAt: 1};
-                    break;
-                case "mostvoted":
-                    sortCriteria = {upvotes: -1};
-                    break;
-                case "mostanswered":
-                    sortCriteria = {answers: -1};
-                default:
-                    sortCriteria = {createdAt: -1}
-                    break;
-            }
-
-        const totalCollections = await Collection.countDocuments(filterQuery);
-        const collections = await Collection.find(filterQuery)
-                                            .populate({
-                                                path: "question",
-                                                populate: [
-                                                    {path:"tags",select:"_id name"},
-                                                    {path:"author",select:"_id name image"}
-                                                ]
-                                            })
-                                            .sort(sortCriteria)
-                                            .skip(skip)
-                                            .limit(limit)
-                                            .lean<IcollectionDoc[]>();
+        const collections = await Collection.aggregate([
+            ...pipeline,
+            {$sort: sortCriteria},
+            {$skip: skip},
+            {$limit: limit},
+        ]);
         const next = totalCollections > skip + collections.length;
         return{
-            success: true,
-            data: {
-                collections: collections,
+            success:true,
+            data:{
+                collections: JSON.parse(JSON.stringify(collections)),
                 isNext: next
             }
         }
     }catch(e){
         return actionError(e);
     }
-    
-
 }

@@ -25,7 +25,7 @@ export default function ThreadCard({question} : {question : IquestionDoc}) {
             className="rounded-full "
             height={30}
           />
-          <span>{question.author?.name} · asked {question.createdAt.toLocaleDateString()}</span>
+          <span>{question.author?.name} · asked 3 minute ago</span>
         </div>
         <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-2">

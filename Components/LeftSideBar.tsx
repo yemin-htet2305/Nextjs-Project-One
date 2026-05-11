@@ -40,11 +40,11 @@ async function LeftSideBar() {
         </li>
         <li className="bg-primary px-2 py-2 rounded-lg">
           <Link
-            href={ROUTES.QUESTIONS}
+            href={ROUTES.BOOKMARK}
             className="text-md font-bold flex items-center space-x-5"
           >
             <IoHome />
-            <span>Ask a new question</span>
+            <span>Bookmark</span>
           </Link>
         </li>
         <li className="bg-primary px-2 py-2 rounded-lg">

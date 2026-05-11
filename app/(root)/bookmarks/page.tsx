@@ -1,8 +1,10 @@
 import { auth } from "@/auth";
 import ButtonLink from "@/Components/ButtonLink";
+import CommonFilter from "@/Components/CommonFilter";
 import DataRenderer from "@/Components/DataRenderer";
 import Filters from "@/Components/Filters";
 import ThreadCard from "@/Components/ThreadCard";
+import { CollectionFilters, DefaultFilters } from "@/constant/filter";
 import { GetBookmarkQuestions } from "@/lib/action/GetBookmarkQuestions.action";
 import ROUTES from "@/route";
 
@@ -20,10 +22,12 @@ async function page({searchParams}: {searchParams:Promise<{
     }
   );
   const collections = data? data.collections : [];
+  
   return (
     <>
     <div className="flex items-center justify-between p-2">
       <h1 className="text-3xl font-bold">All Threads</h1>
+      <CommonFilter filters={CollectionFilters} dvalue={DefaultFilters.CollectionFilters}/>
       <ButtonLink href={ROUTES.QUESTION_CREATE}>Create a New Thread</ButtonLink>
     </div>
       <Filters/>

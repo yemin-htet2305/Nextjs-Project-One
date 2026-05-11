@@ -1,6 +1,5 @@
 import DataRenderer from '@/Components/DataRenderer';
 import { IanswerDoc } from '@/database/answer.model';
-import React from 'react'
 import AnswerCard from './AnswerCard';
 
 function AnswerList(params: {

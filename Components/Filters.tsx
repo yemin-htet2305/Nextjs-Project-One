@@ -20,7 +20,6 @@ export default function Filters() {
             },{skipNull: true, skipEmptyString: true});
             router.push(url);
         }
-        
     };
 
   return (

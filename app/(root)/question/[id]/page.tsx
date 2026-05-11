@@ -10,9 +10,16 @@ import { GetAnswers } from '@/lib/action/GetAnswers.acton';
 import { success } from 'zod/v4';
 import VoteButtons from '@/Components/VoteButtons';
 import ToggleBookmarkButton from '@/Components/ToggleBookmarkButton';
+import { AnswerFilters, DefaultFilters } from '@/constant/filter';
+import CommonFilter from '@/Components/CommonFilter';
 
-export default async function page({ params }: { params: Promise<{ id: string }> }) {
+export default async function page({ params,searchParams }: 
+  { params: Promise<{ id: string }>;
+      searchParams:Promise<{
+        [key: string]: string;
+      }>; }) {
     const {id} = await params;
+    const { page, pageSize, search, filter } = await searchParams;
     
     const {success: qsuccess,data} = await GetQuestion({questionId: id});
     const {question,saved = false} = data || {};
@@ -24,7 +31,11 @@ export default async function page({ params }: { params: Promise<{ id: string }>
     const{success : asuccess,
       data: answerData,
       message: aerrorMessage,
-      detail} = await GetAnswers({page:1,pageSize:10,filter:'latest',questionId:id});
+      detail} = await GetAnswers({
+        page:Number(page) || 1,
+        pageSize:Number(pageSize) || 10,
+        filter:filter || "",
+        questionId:id});
     const {answers = [],totalAnswers = 0}  = answerData || {};
 
     if(!question) notFound();
@@ -52,6 +63,7 @@ export default async function page({ params }: { params: Promise<{ id: string }>
         ))}
       </div>
       <div className='my-3'>
+        <CommonFilter filters={AnswerFilters} dvalue={DefaultFilters.AnswerFilters}/>
         <AnswerList 
         answers={answers} 
         totalAnswers={totalAnswers} 

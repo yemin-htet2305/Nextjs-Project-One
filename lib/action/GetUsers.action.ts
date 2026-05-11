@@ -31,8 +31,8 @@ export async function GetUsers(params:{
 
         if(search){
             filterQuery.$or = [
-                {name: {$regex: search, option: "i"}},
-                {email: {$regex: search,option: "i"}}
+                {name: {$regex: search, $options: "i"}},
+                {email: {$regex: search,$options: "i"}}
             ]
         }
 
@@ -52,6 +52,7 @@ export async function GetUsers(params:{
         }
         const totalUsers = await User.countDocuments();
         const users = await User.find(filterQuery)
+                                .sort(sortCriteria)
                                 .skip(skip)
                                 .limit(limit)
                                 .lean<IuserDoc[]>();

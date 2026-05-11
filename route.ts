@@ -7,6 +7,7 @@ const ROUTES = {
     REGISTER : '/register',
     DETAIL: (id: string) => `/question/${id}`,
     COMMUNITY: '/community',
+    BOOKMARK: '/bookmarks',
 }
 
 export default ROUTES;
