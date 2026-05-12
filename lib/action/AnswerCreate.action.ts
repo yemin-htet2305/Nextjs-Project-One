@@ -49,7 +49,7 @@ export async function AnswerCreate(params:{
             }
         }
     }catch(e){
-        session.abortTransaction();
+        await session.abortTransaction();
         return actionError(e);
     }finally{
         await session.endSession();

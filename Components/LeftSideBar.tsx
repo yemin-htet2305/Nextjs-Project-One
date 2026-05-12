@@ -4,6 +4,7 @@ import ROUTES from "@/route";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { IoHome } from "react-icons/io5";
+import NavLinks from "./NavLinks";
 
 async function LeftSideBar() {
   let session = await auth();
@@ -11,51 +12,7 @@ async function LeftSideBar() {
   return (
     <div className="w-1/5 px-5 py-3">
       <ul className="space-y-6">
-        <li className="bg-main px-2 py-2 rounded-lg">
-          <Link
-            href={ROUTES.HOME}
-            className="text-md font-bold flex items-center space-x-5"
-          >
-            <IoHome />
-            <span>Home</span>
-          </Link>
-        </li>
-        <li className="bg-primary px-2 py-2 rounded-lg">
-          <Link
-            href={ROUTES.TAGS}
-            className="text-md font-bold flex items-center space-x-5"
-          >
-            <IoHome />
-            <span>Tags</span>
-          </Link>
-        </li>
-        <li className="bg-primary px-2 py-2 rounded-lg">
-          <Link
-            href={ROUTES.HOME}
-            className="text-md font-bold flex items-center space-x-5"
-          >
-            <IoHome />
-            <span>Popular</span>
-          </Link>
-        </li>
-        <li className="bg-primary px-2 py-2 rounded-lg">
-          <Link
-            href={ROUTES.BOOKMARK}
-            className="text-md font-bold flex items-center space-x-5"
-          >
-            <IoHome />
-            <span>Bookmark</span>
-          </Link>
-        </li>
-        <li className="bg-primary px-2 py-2 rounded-lg">
-          <Link
-            href={ROUTES.COMMUNITY}
-            className="text-md font-bold flex items-center space-x-5"
-          >
-            <IoHome />
-            <span>Community</span>
-          </Link>
-        </li>
+        <NavLinks />
         {user && <li className="bg-red-500 px-2 py-2 rounded-lg">
           <form action={handleSignOut}>
             <button type="submit"

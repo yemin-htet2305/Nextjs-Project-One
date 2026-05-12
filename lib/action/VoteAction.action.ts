@@ -44,8 +44,8 @@ export async function VoteAction(params:{
             type,
         }).session(session)
 
-        let newUpvotes = item?.upvotes | 0;
-        let newDownvotes = item?.downvotes | 0;
+        let newUpvotes = item?.upvotes || 0;
+        let newDownvotes = item?.downvotes || 0;
         let userType = null; 
         if(existingVote){
             if(existingVote.voteType === voteType){

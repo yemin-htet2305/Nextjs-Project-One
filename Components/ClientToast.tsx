@@ -8,4 +8,4 @@ function ClientToast() {
   )
 }
 
-export default ClientToast
+export default ClientToast;

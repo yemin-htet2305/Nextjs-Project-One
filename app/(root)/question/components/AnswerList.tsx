@@ -11,10 +11,11 @@ function AnswerList(params: {
   return (
     <div className="mt-8 space-y-5">
         <h3 className='text-2xl text-gray-400'>Answer List - {params.totalAnswers}</h3>
-        <DataRenderer 
-        success={params.success}  
+        <DataRenderer
+        success={params.success}
         errorMessage={params.answerError}
         data={params.answers}
+        emptyState="answer"
         render={(data) => (
                             <div className='flex flex-col space-y-5'>
                                 {data.map((a, i) => <AnswerCard key={i} answer={a} />)}

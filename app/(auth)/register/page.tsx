@@ -3,8 +3,14 @@ import Image from "next/image";
 import Button from "../../../Components/Button";
 import AuthenticationForm from "@/Components/AuthenticationForm";
 import { signUpWithCredentials } from "@/lib/action/signUpWithCredentials.action";
+import Link from "next/link";
+import ROUTES from "@/route";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-export default function page() {
+export default async function page() {
+  const session = await auth();
+  if (session) redirect(ROUTES.HOME);
   return (
     <div className="flex">
       <div className="w-2/4 p-10 bg-primary h-screen space-y-10 flex flex-col items-center justify-center">
@@ -20,7 +26,9 @@ export default function page() {
           impedit vitae veritatis. Est ullam at quidem nostrum vero odit ipsa
           dolores!
         </p>
-        <Button>Login Account?</Button>
+        <Link href={ROUTES.LOGIN}>
+        <Button>Login Account?</Button  >
+        </Link>
       </div>
       <AuthenticationForm type="register" submitAction={signUpWithCredentials} />
       

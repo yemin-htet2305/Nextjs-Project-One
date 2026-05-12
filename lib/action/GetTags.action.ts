@@ -45,6 +45,7 @@ export async function GetTags(params:{
     switch (filter){
         case "popular":
             sortCrietria = {questions: -1}
+            break;
         case "newest":
             sortCrietria = {createdAt: -1}
             break;
@@ -56,7 +57,7 @@ export async function GetTags(params:{
             break;
     }
     try{
-        const totalTags = await Tag.countDocuments();
+        const totalTags = await Tag.countDocuments(filterQuery);
         const tags = await Tag.find(filterQuery)
                                         .sort(sortCrietria)
                                         .skip(skip)

@@ -1,6 +1,7 @@
 import { IuserDoc } from '@/database/user.model';
 import Image from 'next/image'
 import Link from 'next/link'
+import ROUTES from '@/route'
 
 // Deterministic: same id → same color, every render
 function getColorFromId(id: string): string {
@@ -16,7 +17,7 @@ function getColorFromId(id: string): string {
 function UserCard({user}:{user: IuserDoc}) {
   return (
     <div>
-      <Link href={`tags/${user._id}`} className='bg-tertiary p-3 rounded-2xl flex flex-col items-center justify-center w-[150px] h-[150px] space-y-3'>
+      <Link href={ROUTES.PROFILE(user._id.toString())} className='bg-tertiary p-3 rounded-2xl flex flex-col items-center justify-center w-[150px] h-[150px] space-y-3'>
           {user.image? (<Image alt='logo' 
           width={50} 
           height={50} 

@@ -39,7 +39,7 @@ export async function GetTagQuestions(params:{
             tags :{$in : [tagId]}
         }
         if(search){
-            filterQuery.title = {$regex: search,$option: "i"}
+            filterQuery.title = {$regex: search,$options: "i"}
         }
         const totalquestions = await Question.countDocuments(filterQuery)
         const questions = await Question.find(filterQuery)

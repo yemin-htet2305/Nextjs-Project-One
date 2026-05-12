@@ -7,11 +7,13 @@ import { after } from 'next/server';
 import AnswerForm from '../components/AnswerForm';
 import AnswerList from '../components/AnswerList';
 import { GetAnswers } from '@/lib/action/GetAnswers.acton';
-import { success } from 'zod/v4';
 import VoteButtons from '@/Components/VoteButtons';
 import ToggleBookmarkButton from '@/Components/ToggleBookmarkButton';
 import { AnswerFilters, DefaultFilters } from '@/constant/filter';
 import CommonFilter from '@/Components/CommonFilter';
+import Pagination from '@/Components/Pagination';
+import ROUTES from '@/route';
+import { ItagDoc } from '@/database/tag.model';
 
 export default async function page({ params,searchParams }: 
   { params: Promise<{ id: string }>;
@@ -19,7 +21,7 @@ export default async function page({ params,searchParams }:
         [key: string]: string;
       }>; }) {
     const {id} = await params;
-    const { page, pageSize, search, filter } = await searchParams;
+    const { page = 1, pageSize = 1, search, filter } = await searchParams;
     
     const {success: qsuccess,data} = await GetQuestion({questionId: id});
     const {question,saved = false} = data || {};
@@ -33,10 +35,10 @@ export default async function page({ params,searchParams }:
       message: aerrorMessage,
       detail} = await GetAnswers({
         page:Number(page) || 1,
-        pageSize:Number(pageSize) || 10,
+        pageSize:Number(pageSize) || 1,
         filter:filter || "",
         questionId:id});
-    const {answers = [],totalAnswers = 0}  = answerData || {};
+    const {answers = [],totalAnswers = 0, isNext = false}  = answerData || {};
 
     if(!question) notFound();
   return (
@@ -58,8 +60,8 @@ export default async function page({ params,searchParams }:
         <Preview content={question.content}/>
       </div>
       <div className="mt-8 flex flex-wrap gap-2">
-        {question.tags.map((tag) => (
-          <TagCard key={tag._id.toString()} href={`/tags/${tag._id}`}> {tag.name}</TagCard>
+        {(question.tags as unknown as ItagDoc[]).map((tag) => (
+          <TagCard key={tag._id.toString()} href={ROUTES.TAG(tag._id.toString())}> {tag.name}</TagCard>
         ))}
       </div>
       <div className='my-3'>
@@ -71,6 +73,7 @@ export default async function page({ params,searchParams }:
         answerError={aerrorMessage}
         />
       </div>
+      <Pagination isNext={isNext} currentPage={Number(page)}/>
       <div className='my-3'>
         <AnswerForm questionId={id} questionTitle={question.title} questionContent={question.content}/>
       </div>
