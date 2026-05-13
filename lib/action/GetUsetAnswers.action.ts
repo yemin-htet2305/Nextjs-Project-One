@@ -40,7 +40,7 @@ export async function GetUserAnswers(params: {
     const answers = await Answer.find({
       author: userId,
     })
-      .populate("author", "name")
+      .populate("author", "_id name")
       .populate("question", "title")
       .sort({createdAt: -1})
       .skip(skip)

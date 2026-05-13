@@ -40,7 +40,7 @@ export async function GetUserQuestions(params: {
     const questions = await Question.find({
       author: userId,
     })
-      .populate("author","name image")
+      .populate("author","_id name image")
       .populate("tags", "name")
       .sort({createdAt: -1})
       .skip(skip)

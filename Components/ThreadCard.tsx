@@ -8,6 +8,7 @@ import Link from "next/link";
 import ROUTES from "@/route";
 import { ItagDoc } from "@/database/tag.model";
 import { IuserDoc } from "@/database/user.model";
+import EditDeleteActions from "./EditDeleteActions";
 
 function getColorFromName(name: string): string {
   let hash = 0;
@@ -17,11 +18,14 @@ function getColorFromName(name: string): string {
   return `hsl(${Math.abs(hash) % 360}, 65%, 55%)`;
 }
 
-export default function ThreadCard({question} : {question : IquestionDoc}) {
+export default function ThreadCard({ question, showActions = false }: { question: IquestionDoc; showActions?: boolean }) {
   const author = question.author as unknown as IuserDoc;
   return (
     <div className="bg-card w-full rounded-xl p-5 space-y-5">
-      <Link href={ROUTES.DETAIL(question._id.toString())} className="text-2xl font-bold hover:text-main block">{question.title}</Link>
+      <div className="flex items-start justify-between gap-2">
+        <Link href={ROUTES.DETAIL(question._id.toString())} className="text-2xl font-bold hover:text-main block">{question.title}</Link>
+        <EditDeleteActions type="question" typeId={question._id.toString()} showActions={showActions} />
+      </div>
       <div className="space-x-2">
         {(question.tags as unknown as ItagDoc[])?.map((tag) => (
           <TagCard key={tag._id.toString()} href={ROUTES.TAG(tag._id.toString())}>{tag.name}</TagCard>

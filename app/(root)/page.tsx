@@ -12,12 +12,13 @@ import ROUTES from "@/route";
 async function page({searchParams}: {searchParams:Promise<{
   [key: string]: string;
 }>}) {
-  let session = await auth();
-  const { page = 1, pageSize = 1, search, filter } = await searchParams;
+  const session = await auth();
+  const userId = session?.user?.id;
+  const { page = 1, pageSize = 3, search, filter } = await searchParams;
   const {success,data,message,} = await GetQuestions(
     {
       page: Number(page) || 1,
-      pageSize: Number(pageSize) || 1,
+      pageSize: Number(pageSize) || 3,
       filter: filter || "",
       search: search || "",
     }

@@ -1,11 +1,12 @@
 import Preview from '@/Components/Preview';
 import VoteButtons from '@/Components/VoteButtons';
+import EditDeleteActions from '@/Components/EditDeleteActions';
 import { IanswerDoc } from '@/database/answer.model'
 import { ChevronUp, ChevronDown, Clock } from 'lucide-react'
 import React from 'react'
 
 
-function AnswerCard({ answer }: { answer: IanswerDoc }) {
+function AnswerCard({ answer, showActions = false }: { answer: IanswerDoc; showActions?: boolean }) {
   const authorName = ((answer as any)?.author?.name as string) || 'Anonymous';
   const upvotes = ((answer as any)?.upvotes as number) ?? 0
   const downvotes = ((answer as any)?.downvotes as number) ?? 0
@@ -44,7 +45,9 @@ function AnswerCard({ answer }: { answer: IanswerDoc }) {
           </div>
         </div>
 
-        {/* Vote pill */}
+        {/* Actions + Vote pill */}
+        <div className="flex items-center gap-2">
+        <EditDeleteActions type="answer" typeId={answer._id.toString()} showActions={showActions} />
         <div className="flex items-center gap-1 rounded-full bg-zinc-100 px-3 py-1.5 dark:bg-zinc-800">
           <button
             aria-label="Upvote"
@@ -61,6 +64,7 @@ function AnswerCard({ answer }: { answer: IanswerDoc }) {
           >
             <ChevronDown className="h-4 w-4" />
           </button>
+        </div>
         </div>
       </header>
 

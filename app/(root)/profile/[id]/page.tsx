@@ -290,7 +290,7 @@ export default async function ProfilePage({
 }else{
   const {success: asuc , data: adata, message: aErrorMsg} = await GetUserAnswers({
     page: currentPage,
-    pageSize: 1,
+    pageSize: 3,
     filter: "",
     search: "",
     sort: ""
@@ -352,7 +352,9 @@ export default async function ProfilePage({
                                         <DataRenderer success={loopSuccess} data={loopData} errorMessage={loopErrorMsg} emptyState="question" render={(loopData) => (
                                                                                   <div className="flex flex-col space-y-7">
                                                                                     {loopData.map((q, i) => (
-                                                                                      <ThreadCard key={q._id} question={q} />
+                                                                                      <ThreadCard
+                                                                                      showActions={isOwner}
+                                                                                      key={q._id} question={q} />
                                                                                     ))}
                                                                                   </div>
                                                                                 )}/> 
@@ -361,7 +363,10 @@ export default async function ProfilePage({
         {activeTab === "answers" && <>
                                         <DataRenderer success={loopSuccess} data={loopData} errorMessage={loopErrorMsg} emptyState="answer" render={(loopData) => (
                                                                                   <div className='flex flex-col space-y-5'>
-                                {loopData.map((a, i) => <AnswerCard key={i} answer={a} />)}
+                                                                                    {loopData.map((a, i) => 
+                                                                                    <AnswerCard
+                                                                                      showActions={isOwner}
+                                                                                    key={i} answer={a} />)}
                                                                                   </div>
                                                                                 )}/>
                                         <Pagination isNext={loopNext} currentPage={currentPage}/>
