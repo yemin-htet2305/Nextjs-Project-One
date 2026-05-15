@@ -1,5 +1,6 @@
 "use client";
 import {Markdown} from "tiptap-markdown"
+import type { MarkdownStorage } from "tiptap-markdown"
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Bold from "@tiptap/extension-bold";
 import Heading from "@tiptap/extension-heading";
@@ -125,7 +126,7 @@ const Editor = ({ value,onChange,label }:{ value?: string; onChange: (value: str
       }),
     ],
     onUpdate: ({ editor }) => {
-        const md = (editor?.storage?.markdown as any)?.getMarkdown()
+        const md = (editor.storage as unknown as Record<string, MarkdownStorage>).markdown.getMarkdown()
         if(md !== value){
           onChange(md);
         }
@@ -138,7 +139,7 @@ const Editor = ({ value,onChange,label }:{ value?: string; onChange: (value: str
     if(!editor) return;
     if(typeof value !== "string") return;
     try{
-       const md = (editor?.storage?.markdown as any)?.getMarkdown();
+       const md = (editor.storage as unknown as Record<string, MarkdownStorage>).markdown.getMarkdown();
        if(md !== value){
         editor.commands.setContent(value);
        }

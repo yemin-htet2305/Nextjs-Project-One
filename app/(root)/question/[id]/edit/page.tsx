@@ -3,7 +3,7 @@ import QuestionForm from "../../components/QuestionForm";
 
 export default async function page({ params }: { params: Promise<{ id: string }> }) {
     const {id} = await params;
-    const {success, data} = await GetQuestion({questionId: id});
+    const {success, data} = await GetQuestion(id);
   return (
     <>
       <div>{id}</div>

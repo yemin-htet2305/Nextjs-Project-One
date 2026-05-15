@@ -4,7 +4,7 @@ import Question, { IquestionDoc } from "@/database/question.model";
 import dbConnect from "../dbConnect";
 import validateBody from "../validateBody";
 import PaginatedSearchParamsSchema from "../schemas/PaginatdSearchParamsSchema";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
 import { actionError } from "../response";
 
 
@@ -29,7 +29,7 @@ export async function GetQuestions(params:{
     const skip = (Number(page) - 1) * Number(pageSize)
     const limit = Number(pageSize)
 
-    const filterQuery: FilterQuery<IquestionDoc> = {}
+    const filterQuery: QueryFilter<IquestionDoc> = {}
 
     if(filter === "recommended"){
         return {data:{questions: [],isNext: false},success:true,}

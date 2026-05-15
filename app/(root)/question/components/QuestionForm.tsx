@@ -3,7 +3,8 @@ import Button from '@/Components/Button'
 import Editor from '@/Components/Editor'
 import Input from '@/Components/Input'
 import TagCard from '@/Components/TagCard'
-import { Iquestion } from '@/database/question.model'
+import { IquestionDoc } from '@/database/question.model'
+import { ItagDoc } from '@/database/tag.model'
 import { QuestionCreate } from '@/lib/action/QuestionCreate.action'
 import ROUTES from '@/route'
 import { useRouter } from 'next/navigation'
@@ -13,10 +14,10 @@ import RemoveableTagCard from './RemoveableTagCard'
 import { QuestionEdit } from '@/lib/action/QuestionEdit.action'
 
 
-export default function QuestionForm({ isEdit = false, questionData }: { isEdit?: Boolean; questionData?: Iquestion }) {
+export default function QuestionForm({ isEdit = false, questionData }: { isEdit?: Boolean; questionData?: IquestionDoc }) {
     const [content, setContent] = useState(questionData?.content || '');
     const [title, setTitle] = useState(questionData?.title || '');
-    const [tags,setTags] = useState<string[]>(questionData?.tags?.map(tag => tag.name) || []);
+    const [tags,setTags] = useState<string[]>((questionData?.tags as unknown as ItagDoc[])?.map((tag: ItagDoc) => tag.name) || []);
     const [newTag,setNewTag] = useState('');
     const [error,setError] = useState('');
     const router = useRouter();
@@ -42,7 +43,7 @@ export default function QuestionForm({ isEdit = false, questionData }: { isEdit?
       e.preventDefault();
       try{
         if(isEdit && questionData) {
-          let result = await QuestionEdit({questionId: questionData._id, title, content, tags});
+          let result = await QuestionEdit({questionId: questionData._id.toString(), title, content, tags});
           console.log("update result:", result)
           if(result.success && result.data) {
             toast.success('Question updated successfully!');

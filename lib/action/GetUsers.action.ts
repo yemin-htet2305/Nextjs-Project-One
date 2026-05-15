@@ -4,7 +4,7 @@ import dbConnect from "../dbConnect";
 import { actionError } from "../response";
 import PaginatedSearchParamsSchema from "../schemas/PaginatdSearchParamsSchema";
 import validateBody from "../validateBody";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
 
 export async function GetUsers(params:{
     page: number;
@@ -27,7 +27,7 @@ export async function GetUsers(params:{
         const skip = (Number(page) - 1) * Number(pageSize);
         const limit = Number(pageSize);
 
-        const filterQuery: FilterQuery<typeof User> = {}
+        const filterQuery: QueryFilter<typeof User> = {}
 
         if(search){
             filterQuery.$or = [

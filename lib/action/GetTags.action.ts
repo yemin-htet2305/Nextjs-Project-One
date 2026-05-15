@@ -4,7 +4,7 @@ import Tag,{ItagDoc} from "@/database/tag.model";
 import dbConnect from "../dbConnect";
 import validateBody from "../validateBody";
 import PaginatedSearchParamsSchema from "../schemas/PaginatdSearchParamsSchema";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
 import { actionError } from "../response";
 
 
@@ -29,7 +29,7 @@ export async function GetTags(params:{
     const skip = (Number(page) - 1) * Number(pageSize)
     const limit = Number(pageSize)
 
-    const filterQuery: FilterQuery<ItagDoc> = {}
+    const filterQuery: QueryFilter<ItagDoc> = {}
 
     if(filter === "recommended"){
         return {data:{tags: [],isNext: false},success:true,}

@@ -4,7 +4,7 @@ import Tag, { ItagDoc } from "@/database/tag.model";
 import dbConnect from "../dbConnect";
 import GetTagQuestionsSchema from "../schemas/GetTagQuestionsSchema";
 import validateBody from "../validateBody";
-import { FilterQuery } from "mongoose";
+import { QueryFilter } from "mongoose";
 import Question, { IquestionDoc } from "@/database/question.model";
 import { actionError } from "../response";
 
@@ -35,7 +35,7 @@ export async function GetTagQuestions(params:{
         if(!tag){
             throw new Error("Tag not found!");
         }
-        const filterQuery: FilterQuery<typeof Question> = {
+        const filterQuery: QueryFilter<typeof Question> = {
             tags :{$in : [tagId]}
         }
         if(search){
