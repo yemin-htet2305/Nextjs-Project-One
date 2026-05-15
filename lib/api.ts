@@ -1,6 +1,6 @@
 import fetchHandler from "./fetchHandler"
 
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/api`;
 
 export const api = {
     users :{
