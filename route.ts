@@ -12,6 +12,7 @@ const ROUTES = {
     BOOKMARK: '/bookmarks',
     PROFILE: (id: string) => `/profile/${id}`,
     PROFILE_EDIT: (id: string) => `/profile/${id}/edit`,
+    TECH_NEWS: '/tech-news',
 }
 
 export default ROUTES;

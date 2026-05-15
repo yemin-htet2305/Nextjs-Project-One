@@ -3,7 +3,10 @@ import VoteButtons from '@/Components/VoteButtons';
 import EditDeleteActions from '@/Components/EditDeleteActions';
 import { IanswerDoc } from '@/database/answer.model'
 import { ChevronUp, ChevronDown, Clock } from 'lucide-react'
-import React from 'react'
+import { GetUserVote } from '@/lib/action/GetUserVote.action';
+import { Suspense } from 'react';
+import VoteButtonsSkeleton from '@/Components/VoteButtonsSkeleton';
+
 
 
 function AnswerCard({ answer, showActions = false }: { answer: IanswerDoc; showActions?: boolean }) {
@@ -75,10 +78,17 @@ function AnswerCard({ answer, showActions = false }: { answer: IanswerDoc; showA
 
       {/* Footer stats */}
       <footer className="mt-5 flex items-center gap-4 border-t border-zinc-100 pt-4 text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
-        <VoteButtons type='answer'
-        typeId={answer._id.toString()}
-        initialUpvote={answer.upvotes}
-        initialDownvote={answer.downvotes}/>
+        <Suspense fallback={<VoteButtonsSkeleton/>}>
+          <VoteButtons
+          promiseGetVote={GetUserVote({
+            type:'answer',
+            typeId:answer._id.toString()
+          })}
+          type='answer'
+          typeId={answer._id.toString()}
+          initialUpvote={answer.upvotes}
+          initialDownvote={answer.downvotes}/>
+        </Suspense>
       </footer>
     </article>
   )

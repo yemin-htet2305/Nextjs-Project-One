@@ -1,32 +1,33 @@
 'use client'
-import { GetUserVote } from '@/lib/action/GetUserVote.action';
+
 import { VoteAction } from '@/lib/action/VoteAction.action';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useEffect, useState } from 'react'
+import { use, useState } from 'react'
 import { toast } from 'react-toastify';
 
-function VoteButtons({type,typeId,initialUpvote,initialDownvote}:{
+function VoteButtons({type,typeId,initialUpvote,initialDownvote,promiseGetVote}:{
+  promiseGetVote: Promise<{
+    success:Boolean,
+    data?:{
+        userVoteType: "upvote"|"downvote"|null;
+    },
+    message?: string,
+    detail?: object | null
+
+}>;
   type: "question" | "answer";
   typeId: string;
   initialUpvote: number;
   initialDownvote:number;
 }) {
+  const{success,data,message,detail} = use(promiseGetVote);
   const [upvote,setUpvote] = useState(initialUpvote);
   const [downvote,setDownvote] = useState(initialDownvote);
-  const [vote,setVote] = useState<'upvote'|'downvote'|null>(null);
+  const [vote,setVote] = useState<'upvote'|'downvote'|null>(
+    success? data?.userVoteType ?? null : null
+  );
 
-  useEffect(()=>{
-    const fetchUserVote = async () => {
-      const {success,data,message,detail} = await GetUserVote({type: type,typeId: typeId});
-      if(success && data){
-        setVote(data.userVoteType);
-      }
-      if(message){
-        toast.error(message);
-      }
-    }
-    fetchUserVote();
-  },[type,typeId]);
+  
 
   const handleVote = async (voteType: "upvote"|"downvote")=>{
     const {success,data,message,detail} = await VoteAction({type: type,typeId:typeId,voteType});
@@ -56,4 +57,4 @@ function VoteButtons({type,typeId,initialUpvote,initialDownvote}:{
   )
 }
 
-export default VoteButtons
+export default VoteButtons;

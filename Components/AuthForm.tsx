@@ -8,9 +8,9 @@ import { signIn } from "next-auth/react";
 import ROUTES from "@/route";
 
 export default function AuthForm() {
-  const oauthSignIn = async () => {
+  const oauthSignIn = async (type: "github" | "google") => {
     try {
-      await signIn("github", { redirectTo: ROUTES.HOME });
+      await signIn(type, { redirectTo: ROUTES.HOME });
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -19,10 +19,10 @@ export default function AuthForm() {
   };
   return (
     <div className="flex space-x-3">
-      <Button icon={google} variant="outline">
+      <Button icon={google} variant="outline" onClick={()=>oauthSignIn("google")}>
         Sign In With Google
       </Button>
-      <Button icon={github} variant="outline" onClick={oauthSignIn}>
+      <Button icon={github} variant="outline" onClick={()=>oauthSignIn("github")}>
         Sign In With Github
       </Button>
     </div>

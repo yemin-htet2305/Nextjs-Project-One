@@ -6,20 +6,21 @@ import Question, {IquestionDoc} from "@/database/question.model";
 import GetQuestionSchema from "../schemas/GetQuestionSchema";
 import { auth } from "@/auth";
 import Collection from "@/database/collection.model";
+import { cache } from "react";
 
-export async function GetQuestion(params:{
-    questionId: string
-}): Promise<
+const GetQuestion = cache(async (
+    id: string
+): Promise<
 {
     success: Boolean,
     data?: {question: IquestionDoc,saved: Boolean}
-}> {
+}>  => {
     await dbConnect();
     const auth_session = await auth();
     const userId = auth_session?.user?.id;
     try{
         if(!userId) throw new Error("Unauthorized!");
-        const {questionId} = validateBody(params,GetQuestionSchema);
+        const {questionId} = validateBody({questionId: id},GetQuestionSchema);
 
         const question = await Question.findById(questionId).populate("tags");
         if(!question){
@@ -28,10 +29,13 @@ export async function GetQuestion(params:{
         const collection = await Collection.findOne({
             author: userId,
             question: questionId
-        })
+        });
+        console.log("hit");
         return { success: true, data: {question:JSON.parse(JSON.stringify(question)),saved:!!collection} };
     }catch(err){
         console.log('GetQuestion error:', err);
         return actionError(err);
     }
-}
+});
+
+export {GetQuestion};

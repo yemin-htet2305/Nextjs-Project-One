@@ -1,6 +1,6 @@
 'use client'
 
-import React from "react";
+import React, { useTransition } from "react";
 import queryString from "query-string";
 import { useRouter,useSearchParams } from "next/navigation";
 
@@ -12,6 +12,7 @@ interface Filter{
 function CommonFilter({filters,dvalue}:{filters: Filter[],dvalue: string}) {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const[isPending,startTransition] = useTransition();
     const defaultValue = searchParams.get('filter')|| dvalue || "";
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedValue = e.target.value;
@@ -20,9 +21,20 @@ function CommonFilter({filters,dvalue}:{filters: Filter[],dvalue: string}) {
         const url = queryString.stringifyUrl({
             url: window.location.pathname,
             query: updatedQuery
-        },{skipNull: true, skipEmptyString: true})
-        router.push(url);
+        },{skipNull: true, skipEmptyString: true});
+        startTransition(() => {
+             router.push(url);
+        })
+       
     }
+  if (isPending) {
+    return (
+      <div className="p-3">
+        <div className="h-9 w-36 bg-gray-200 rounded-xl animate-pulse" />
+      </div>
+    );
+  }
+
   return (
     <div className='p-3'>
         <select value={defaultValue} onChange={handleFilterChange}
@@ -30,7 +42,7 @@ function CommonFilter({filters,dvalue}:{filters: Filter[],dvalue: string}) {
         >
             {filters.map((filter)=> (
                 <option  className="outline-none border-none rounded-2xl"
-                value={filter.value} 
+                value={filter.value}
                 key={filter.value}>{filter.name}</option>
             ))}
         </select>

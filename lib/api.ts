@@ -55,5 +55,5 @@ export const api = {
             method: "POST",
             body: JSON.stringify({provider, providerAccountId, user})
         }),
-    }
+    },
 }

@@ -7,61 +7,20 @@ export default function RightSideBar() {
     <div className="w-1/5 p-5 space-y-5">
       <div className="mt-2 space-y-5">
         <h1 className="text-xl font-bold">Popular Questions</h1>
-        <div className="flex items-center space-x-3 my-4">
-          <span className="text-main">
-            <BsFillQuestionOctagonFill />
-          </span>
-          <span className="line-clamp-2 text-sm">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum
-            optio voluptas excepturi facere officiis quam expedita eius
-            molestias? Ab voluptatum autem deserunt minima, nemo obcaecati
-            exercitationem quo architecto in nihil!
-          </span>
-        </div>
-        <div className="flex items-center space-x-3 my-4">
-          <span className="text-main">
-            <BsFillQuestionOctagonFill />
-          </span>
-          <span className="line-clamp-2 text-sm">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum
-            optio voluptas excepturi facere officiis quam expedita eius
-            molestias? Ab voluptatum autem deserunt minima, nemo obcaecati
-            exercitationem quo architecto in nihil!
-          </span>
-        </div>
-        <div className="flex items-center space-x-3 my-4">
-          <span className="text-main">
-            <BsFillQuestionOctagonFill />
-          </span>
-          <span className="line-clamp-2 text-sm">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum
-            optio voluptas excepturi facere officiis quam expedita eius
-            molestias? Ab voluptatum autem deserunt minima, nemo obcaecati
-            exercitationem quo architecto in nihil!
-          </span>
-        </div>
-        <div className="flex items-center space-x-3 my-4">
-          <span className="text-main">
-            <BsFillQuestionOctagonFill />
-          </span>
-          <span className="line-clamp-2 text-sm">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum
-            optio voluptas excepturi facere officiis quam expedita eius
-            molestias? Ab voluptatum autem deserunt minima, nemo obcaecati
-            exercitationem quo architecto in nihil!
-          </span>
-        </div>
-        <div className="flex items-center space-x-3 my-4">
-          <span className="text-main">
-            <BsFillQuestionOctagonFill />
-          </span>
-          <span className="line-clamp-2 text-sm">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum
-            optio voluptas excepturi facere officiis quam expedita eius
-            molestias? Ab voluptatum autem deserunt minima, nemo obcaecati
-            exercitationem quo architecto in nihil!
-          </span>
-        </div>
+        {[
+          "How do I handle async/await errors properly in JavaScript?",
+          "What is the difference between useEffect and useLayoutEffect in React?",
+          "How to implement JWT authentication in a Node.js REST API?",
+          "Why is my CSS Flexbox not centering elements vertically?",
+          "How do I optimize slow SQL queries with proper indexing?",
+        ].map((question) => (
+          <div key={question} className="flex items-start space-x-3 my-4">
+            <span className="text-main mt-0.5 shrink-0">
+              <BsFillQuestionOctagonFill />
+            </span>
+            <span className="line-clamp-2 text-sm leading-snug">{question}</span>
+          </div>
+        ))}
       </div>
       <div className="mt-5 space-y-5">
         <h1 className="text-xl font-bold">Popular Tags</h1>
